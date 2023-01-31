@@ -31,6 +31,18 @@ class MainActivity : AppCompatActivity() {
         sayHelloTextView.text = resources.getString(R.string.app_name)
 
         sayHelloButton.setOnClickListener {
+            val sample = resources.openRawResource(R.raw.simple)
+                .bufferedReader()
+                .use { it.readText() }
+
+            Log.i("RAW", sample)
+
+            val json = assets.open("simple.json")
+                .bufferedReader()
+                .use { it.readText() }
+
+            Log.i("ASSET", json)
+
             Log.d("MainActivity","Click sayHelloButton")
             Log.i("ValueResources", resources.getInteger(R.integer.maxPage).toString())
             Log.i("ValueResources", resources.getBoolean(R.bool.isProductionMode).toString())
