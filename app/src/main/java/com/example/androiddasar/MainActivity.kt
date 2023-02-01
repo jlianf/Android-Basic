@@ -1,6 +1,8 @@
 package com.example.androiddasar
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +24,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun checkFingerPrint(){
+        if(packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)){
+            Log.i("FEATURE", "FINGERPRINT ON")
+        }else{
+            Log.w("FEATURE", "FINGERPRINT OFF")
+        }
+    }
+
+    private fun checkPlatformVersion(){
+        Log.i("SDK", Build.VERSION.SDK_INT.toString())
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.S){
+            Log.i("SDK", "Disable feature because version SDK is lower than 31")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.hello_wolrd )
@@ -31,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         sayHelloTextView.text = resources.getString(R.string.app_name)
 
         sayHelloButton.setOnClickListener {
+
+            checkFingerPrint()
+            checkPlatformVersion()
+
             val sample = resources.openRawResource(R.raw.simple)
                 .bufferedReader()
                 .use { it.readText() }
